@@ -65,8 +65,11 @@ class LetterAdapter :
     override fun onBindViewHolder(holder: LetterViewHolder, position: Int) {
         val item = list.get(position)
         holder.button.text = item.toString()
-        val action = LetterListFragmentDirections.actionLetterListFragmentToWordListFragment(letter = holder.button.text.toString())
-        holder.view.findNavController().navigate(action)
+        holder.button.setOnClickListener {
+            val action = LetterListFragmentDirections.actionLetterListFragmentToWordListFragment(letter = item.toString())
+            holder.view.findNavController().navigate(action)
+        }
+
     }
 
     // Setup custom accessibility delegate to set the text read with
