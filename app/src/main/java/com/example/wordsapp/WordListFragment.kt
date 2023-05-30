@@ -34,7 +34,7 @@ class WordListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val letterId = activity?.intent?.extras?.getString(DetailActivity.LETTER).toString()
+        val letterId = activity?.intent?.extras?.getString(LETTER).toString()
         val recyclerView=binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = WordAdapter(letterId, this.requireContext())
