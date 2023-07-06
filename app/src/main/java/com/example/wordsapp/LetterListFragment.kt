@@ -1,8 +1,11 @@
 package com.example.wordsapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +19,7 @@ class LetterListFragment : Fragment() {
 
     private val binding get() = _binding!!
     private var isLinearLayoutManager = true
+    val TAG  = "LetterListFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,31 +37,40 @@ class LetterListFragment : Fragment() {
 
         recyclerView = binding.recyclerView
         chooseLayout()
+        setUpMenu()
+    }
+
+    private fun setUpMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider{
+
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                Log.d(TAG,"onCreateMenu called");
+                menuInflater.inflate(R.menu.layout_menu,menu)
+                val layoutButton = menu.findItem(R.id.action_switch_layout)
+                if (layoutButton != null) {
+                    chooseIcon(layoutButton)
+                }
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when(menuItem.itemId){
+                    R.id.action_switch_layout->{
+                        isLinearLayoutManager = !isLinearLayoutManager
+                        chooseLayout()
+                        chooseIcon(menuItem)
+                        true
+                    }
+                    else ->false
+                    //else -> super.onMenuClosed(menuItem.me)
+                }
+            }
+
+        },viewLifecycleOwner)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding=null
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.layout_menu,menu)
-        val layoutButton = menu.findItem(R.id.action_switch_layout)
-        if (layoutButton != null) {
-            chooseIcon(layoutButton)
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.action_switch_layout->{
-                isLinearLayoutManager = !isLinearLayoutManager
-                chooseLayout()
-                chooseIcon(item)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     private fun chooseIcon(menuItem: MenuItem){
