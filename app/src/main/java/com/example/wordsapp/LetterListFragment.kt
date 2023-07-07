@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wordsapp.data.SettingsDataStore
 import com.example.wordsapp.databinding.FragmentLetterListBinding
 
 
@@ -19,6 +20,7 @@ class LetterListFragment : Fragment() {
 
     private val binding get() = _binding!!
     private var isLinearLayoutManager = true
+    private lateinit var settingsDataStore: SettingsDataStore
     val TAG  = "LetterListFragment"
 
     override fun onCreateView(
@@ -34,7 +36,8 @@ class LetterListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //initialize variable
+        settingsDataStore = SettingsDataStore(requireContext())
         recyclerView = binding.recyclerView
         chooseLayout()
         setUpMenu()
