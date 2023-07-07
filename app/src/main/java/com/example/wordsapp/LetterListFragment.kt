@@ -39,12 +39,13 @@ class LetterListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = binding.recyclerView
-        chooseLayout()
         setUpMenu()
-
         //initialize variable
         settingsDataStore = SettingsDataStore(requireContext())
-        settingsDataStore.preferenceFlow.asLiveData().observe(viewLifecycleOwner,{})
+        settingsDataStore.preferenceFlow.asLiveData().observe(viewLifecycleOwner,{ value ->
+            isLinearLayoutManager = value
+            chooseLayout()
+        })
     }
 
     private fun setUpMenu() {
