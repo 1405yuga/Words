@@ -8,11 +8,13 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wordsapp.data.SettingsDataStore
 import com.example.wordsapp.databinding.FragmentLetterListBinding
+import kotlinx.coroutines.launch
 
 
 class LetterListFragment : Fragment() {
@@ -64,6 +66,9 @@ class LetterListFragment : Fragment() {
                 return when(menuItem.itemId){
                     R.id.action_switch_layout->{
                         isLinearLayoutManager = !isLinearLayoutManager
+                        lifecycleScope.launch {
+                            settingsDataStore.saveLayoutPreferenceToDataStore(isLinearLayoutManager,requireContext())
+                        }
                         chooseLayout()
                         chooseIcon(menuItem)
                         true
