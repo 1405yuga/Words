@@ -47,6 +47,8 @@ class LetterListFragment : Fragment() {
         settingsDataStore.preferenceFlow.asLiveData().observe(viewLifecycleOwner,{ value ->
             isLinearLayoutManager = value
             chooseLayout()
+            //redraw option menu - to retore menu icon after re-launching app
+            activity?.invalidateOptionsMenu()
         })
     }
 
