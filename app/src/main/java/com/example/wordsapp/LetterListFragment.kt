@@ -36,11 +36,13 @@ class LetterListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //initialize variable
-        settingsDataStore = SettingsDataStore(requireContext())
+
         recyclerView = binding.recyclerView
         chooseLayout()
         setUpMenu()
+
+        //initialize variable
+        settingsDataStore = SettingsDataStore(requireContext())
     }
 
     private fun setUpMenu() {

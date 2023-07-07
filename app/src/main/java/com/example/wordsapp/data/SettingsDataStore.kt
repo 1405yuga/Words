@@ -27,19 +27,21 @@ class SettingsDataStore(context: Context) {
         context.datastore.edit { preferences ->
             preferences[IS_LINEAR_LAYOUT_MANAGER] = isLinearLayoutManager
         }
-
-        val preferenceFlow: Flow<Boolean> = context.datastore.data
-            .catch {
-                if (it is IOException) {
-                    it.printStackTrace()
-                    emit(emptyPreferences())
-                } else {
-                    throw it
-                }
-            }
-            //read preference
-            .map { preferences ->
-                preferences[IS_LINEAR_LAYOUT_MANAGER] ?: true
-            }
     }
+
+
+
+    val preferenceFlow: Flow<Boolean> = context.datastore.data
+        .catch {
+            if (it is IOException) {
+                it.printStackTrace()
+                emit(emptyPreferences())
+            } else {
+                throw it
+            }
+        }
+        //read preference
+        .map { preferences ->
+            preferences[IS_LINEAR_LAYOUT_MANAGER] ?: true
+        }
 }
